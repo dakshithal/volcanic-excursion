@@ -7,6 +7,7 @@ class CELL_TYPE {
     static final char START = '>';
     static final char FINISH = '<';
     static final char WALL = 'W';
+    static final char LAVA = 'C';
 }
 
 public class Game {
@@ -83,6 +84,14 @@ public class Game {
                 markOccupiedCell(x, wallY);
             }
         }
+    }
+
+    public void addLava() {
+        int[] lava = getUnoccupiedCell();
+        int lx = lava[0];
+        int ly = lava[1];
+        grid[lx][ly] = CELL_TYPE.LAVA;
+        markOccupiedCell(lx, ly);
     }
 
     private void markOccupiedCell(int x, int y) {
