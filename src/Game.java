@@ -1,3 +1,5 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Game {
     private int width, height;
     private char[][] grid;
@@ -20,5 +22,21 @@ public class Game {
             }
             System.out.println();
         }
+    }
+
+    public void addStart() {
+        int startX = 0;
+        int startY = getRandomInt(0, height);
+        grid[startX][startY] = '>';
+    }
+
+    public void addFinish() {
+        int finishX = width - 1;
+        int finishY = getRandomInt(0, height);
+        grid[finishX][finishY] = '<';
+    }
+
+    private int getRandomInt(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
     }
 }
