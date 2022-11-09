@@ -88,10 +88,91 @@ public class Game {
 
     public void addLava() {
         int[] lava = getUnoccupiedCell();
-        int lx = lava[0];
-        int ly = lava[1];
-        grid[lx][ly] = CELL_TYPE.LAVA;
-        markOccupiedCell(lx, ly);
+        int x = lava[0];
+        int y = lava[1];
+        grid[x][y] = CELL_TYPE.LAVA;
+        markOccupiedCell(x, y);
+
+        // Update neighbouring cells
+        if (x > 0) {
+            // left top neighbour
+            if (y > 0) {
+                char lt = grid[x - 1][y - 1];
+                if (lt == CELL_TYPE.EMPTY) {
+                    grid[x - 1][y - 1] = '1';
+                } else if (isEditable(lt)) {
+                    grid[x - 1][y - 1] = (char) (lt + 1);
+                }
+            }
+
+            // left middle neighbour
+            char lm = grid[x - 1][y];
+            if (lm == CELL_TYPE.EMPTY) {
+                grid[x - 1][y] = '1';
+            } else if (isEditable(lm)) {
+                grid[x - 1][y] = (char) (lm + 1);
+            }
+
+            // left bottom neighbour
+            if (y < height - 1) {
+                char lb = grid[x - 1][y + 1];
+                if (lb == CELL_TYPE.EMPTY) {
+                    grid[x - 1][y + 1] = '1';
+                } else if (isEditable(lb)) {
+                    grid[x - 1][y + 1] = (char) (lb + 1);
+                }
+            }
+        }
+
+        // middle top neighbour
+        if (y > 0) {
+            char mt = grid[x][y - 1];
+            if (mt == CELL_TYPE.EMPTY) {
+                grid[x][y - 1] = '1';
+            } else if (isEditable(mt)) {
+                grid[x][y - 1] = (char) (mt + 1);
+            }
+        }
+
+        // middle bottom neighbour
+        if (y < height - 1) {
+            char mb = grid[x][y + 1];
+            if (mb == CELL_TYPE.EMPTY) {
+                grid[x][y + 1] = '1';
+            } else if (isEditable(mb)) {
+                grid[x][y + 1] = (char) (mb + 1);
+            }
+        }
+
+        if (x < width - 1) {
+            // right top neighbour
+            if (y > 0) {
+                char rt = grid[x + 1][y - 1];
+                if (rt == CELL_TYPE.EMPTY) {
+                    grid[x + 1][y - 1] = '1';
+                } else if (isEditable(rt)) {
+                    grid[x + 1][y - 1] = (char) (rt + 1);
+                }
+            }
+
+            // right middle neighbour
+            char rm = grid[x + 1][y];
+            if (rm == CELL_TYPE.EMPTY) {
+                grid[x + 1][y] = '1';
+            } else if (isEditable(rm)) {
+                grid[x + 1][y] = (char) (rm + 1);
+            }
+
+            // right bottom neighbour
+            if (y < height - 1) {
+                char rb = grid[x + 1][y + 1];
+                if (rb == CELL_TYPE.EMPTY) {
+                    grid[x + 1][y + 1] = '1';
+                } else if (isEditable(rb)) {
+                    grid[x + 1][y + 1] = (char) (rb + 1);
+                }
+            }
+        }
     }
 
     public boolean canAddLava(int spots) {
@@ -115,6 +196,10 @@ public class Game {
             cell[1] = getRandomInt(0, height);
         } while (isCellOccupied(cell[0], cell[1]));
         return cell;
+    }
+
+    private boolean isEditable(char value) {
+        return value != CELL_TYPE.START && value != CELL_TYPE.FINISH && value != CELL_TYPE.WALL && value != CELL_TYPE.LAVA;
     }
 
     private int getRandomInt(int min, int max) {
