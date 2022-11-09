@@ -94,6 +94,10 @@ public class Game {
         markOccupiedCell(lx, ly);
     }
 
+    public boolean canAddLava(int spots) {
+        return width * height - occupied.size() >= spots;
+    }
+
     private void markOccupiedCell(int x, int y) {
         String occupiedCoordinate = x + ":" + y;
         occupied.add(occupiedCoordinate);
