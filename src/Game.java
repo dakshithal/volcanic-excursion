@@ -97,80 +97,40 @@ public class Game {
         if (x > 0) {
             // left top neighbour
             if (y > 0) {
-                char lt = grid[x - 1][y - 1];
-                if (lt == CELL_TYPE.EMPTY) {
-                    grid[x - 1][y - 1] = '1';
-                } else if (isEditable(lt)) {
-                    grid[x - 1][y - 1] = (char) (lt + 1);
-                }
+                updateNeighbour(x - 1, y - 1);
             }
 
             // left middle neighbour
-            char lm = grid[x - 1][y];
-            if (lm == CELL_TYPE.EMPTY) {
-                grid[x - 1][y] = '1';
-            } else if (isEditable(lm)) {
-                grid[x - 1][y] = (char) (lm + 1);
-            }
+            updateNeighbour(x - 1, y);
 
             // left bottom neighbour
             if (y < height - 1) {
-                char lb = grid[x - 1][y + 1];
-                if (lb == CELL_TYPE.EMPTY) {
-                    grid[x - 1][y + 1] = '1';
-                } else if (isEditable(lb)) {
-                    grid[x - 1][y + 1] = (char) (lb + 1);
-                }
+                updateNeighbour(x - 1, y + 1);
             }
         }
 
         // middle top neighbour
         if (y > 0) {
-            char mt = grid[x][y - 1];
-            if (mt == CELL_TYPE.EMPTY) {
-                grid[x][y - 1] = '1';
-            } else if (isEditable(mt)) {
-                grid[x][y - 1] = (char) (mt + 1);
-            }
+            updateNeighbour(x, y - 1);
         }
 
         // middle bottom neighbour
         if (y < height - 1) {
-            char mb = grid[x][y + 1];
-            if (mb == CELL_TYPE.EMPTY) {
-                grid[x][y + 1] = '1';
-            } else if (isEditable(mb)) {
-                grid[x][y + 1] = (char) (mb + 1);
-            }
+            updateNeighbour(x, y + 1);
         }
 
         if (x < width - 1) {
             // right top neighbour
             if (y > 0) {
-                char rt = grid[x + 1][y - 1];
-                if (rt == CELL_TYPE.EMPTY) {
-                    grid[x + 1][y - 1] = '1';
-                } else if (isEditable(rt)) {
-                    grid[x + 1][y - 1] = (char) (rt + 1);
-                }
+                updateNeighbour(x + 1, y - 1);
             }
 
             // right middle neighbour
-            char rm = grid[x + 1][y];
-            if (rm == CELL_TYPE.EMPTY) {
-                grid[x + 1][y] = '1';
-            } else if (isEditable(rm)) {
-                grid[x + 1][y] = (char) (rm + 1);
-            }
+            updateNeighbour(x + 1, y);
 
             // right bottom neighbour
             if (y < height - 1) {
-                char rb = grid[x + 1][y + 1];
-                if (rb == CELL_TYPE.EMPTY) {
-                    grid[x + 1][y + 1] = '1';
-                } else if (isEditable(rb)) {
-                    grid[x + 1][y + 1] = (char) (rb + 1);
-                }
+                updateNeighbour(x + 1, y + 1);
             }
         }
     }
@@ -200,6 +160,15 @@ public class Game {
 
     private boolean isEditable(char value) {
         return value != CELL_TYPE.START && value != CELL_TYPE.FINISH && value != CELL_TYPE.WALL && value != CELL_TYPE.LAVA;
+    }
+
+    private void updateNeighbour(int x, int y) {
+        char existingValue = grid[x][y];
+        if (existingValue == CELL_TYPE.EMPTY) {
+            grid[x][y] = '1';
+        } else if (isEditable(existingValue)) {
+            grid[x][y] = (char) (existingValue + 1);
+        }
     }
 
     private int getRandomInt(int min, int max) {
